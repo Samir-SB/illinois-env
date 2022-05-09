@@ -35,7 +35,7 @@ def add_circleMarker(map, position, radius, color = 'red'):
             fill_color= color
             ).add_to(map) 
 
-def plot_trajectory(map, trajectory, color='blue', ):
+def plot_trajectory(map, trajectory, color='blue'):
   folium.PolyLine(trajectory, color=color).add_to(map)
 
 def plot_ms_trajctories(map, ms_trajectories):
