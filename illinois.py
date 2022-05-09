@@ -6,7 +6,7 @@ import pandas as pd
 # from os import listdir,  walk
 # from os.path import isfile, join
 import random
-import utils2
+import utils
 class env():
   def __init__(self, action_space = 10, D = 50):
     self.D = D
@@ -40,7 +40,7 @@ class env():
   def build_env(self, randomly = False):
     columns_label = ['Latitude', 'Longitude', 'time','x_projection', 'y_projection' ]
     columns_excluded = ['x_projection', 'y_projection']
-    list_files = utils2.listing_files('dataset/person1')
+    list_files = utils.listing_files('dataset/person1')
     if (randomly):
       files = random.sample(list_files,  self.action_space)       
     else:
@@ -63,7 +63,7 @@ class env():
   def calculate_reward(self, i_action):
     user_coordinate = self.user_trajectory.iloc[self.step] 
     ms_coordinate = self.ms_trajectories.iloc[self.step, i_action]  
-    distance = utils2.distance_from(user_coordinate, ms_coordinate)
+    distance = utils.distance_from(user_coordinate, ms_coordinate)
     if (distance > self.D ):
       return -10
     return np.random.rand()
@@ -82,11 +82,11 @@ class env():
   
   def render_state(self, map):
     print(self.step)
-    utils2.add_circleMarker(map, self.user_trajectory[self.step], self.D)
+    utils.add_circleMarker(map, self.user_trajectory[self.step], self.D)
     print( self.ms_trajectories.shape)
     for position in self.ms_trajectories.iloc[self.step]:
       if( position != position):
         print ('-----')
       else:
         print(position)
-        utils2.add_circleMarker(map, position, self.D, color ='blue')
+        utils.add_circleMarker(map, position, self.D, color ='blue')

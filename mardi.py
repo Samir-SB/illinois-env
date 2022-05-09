@@ -6,17 +6,17 @@ import pandas as pd
 # from os import listdir,  walk
 # from os.path import isfile, join
 import random
-import utils2
+import utils
 
 
 # plot all trajectories
 def plot_all_trajectories(list_dfs, init_location):
-    m = utils2.build_map(init_location)
+    m = utils.build_map(init_location)
     colors = ['red', 'blue', 'green', 'orange', 'pink', 'black',
               'yellow', 'brown', 'corel', 'violet', 'indigo', 'teal']
     for df, color in zip(list_dfs, colors):
         # coordinates.dropna()
-        utils2.plot_trajectory(m, df.coordinate, color)
+        utils.plot_trajectory(m, df.coordinate, color)
 
     m.save('map_mardi.html')
 
@@ -30,7 +30,7 @@ def load_data(folder_name):
 
     # 1. listing all files inside @folder_name
     # 2. choose only 10 columns (the first ten).
-    selected_files = utils2.listing_files(folder_name)[:10]
+    selected_files = utils.listing_files(folder_name)[:10]
 
     list_dfs = []
     for filename in selected_files:
@@ -61,12 +61,12 @@ def calculate_distance_at(time):
         else:
             # print(df.loc[df['time'].str.contains(time)])
             loc2 = i['coordinate'].values[0]
-            distance = utils2.distance_from(loc1, loc2)
+            distance = utils.distance_from(loc1, loc2)
         print(distance)
 
 
 def calculate_all_distance(location, df):
-    distance_df = df['coordinate'].apply(utils2.distance_from, loc2=location)
+    distance_df = df['coordinate'].apply(utils.distance_from, loc2=location)
     distance_df.values.tolist()
 
 # ------------------------------------------
@@ -94,7 +94,7 @@ max_distance = 50
 user_df = data[index1]
 
 for loc1, loc2 in zip(user_df.coordinate, data[index2].coordinate):
-    distance = utils2.distance_from(loc1, loc2)
+    distance = utils.distance_from(loc1, loc2)
     print(distance)
 
 

@@ -12,7 +12,7 @@ columns_excluded = ['Latitude', 'Longitude',
                     'time', 'x_projection', 'y_projection']
 delimiter = '|'
 
-foldername = '../dataset/custom'
+foldername = 'dataset/custom'
 colors = ['red', 'blue', 'green', 'orange', 'pink', 'black',
           'yellow', 'brown', 'corel', 'violet', 'indigo', 'teal']
 
@@ -69,23 +69,6 @@ def distance_from(loc1, loc2):
     return round(dist, 2)
 
 
-# Algorithm
-list_files = listing_files(foldername)
-# print(len(list_files))
-
-selected_files = list_files[:10]
-dfs = read_files(selected_files)
-# print(dfs[0].head())
-
-for index, df in enumerate(dfs):
-    dfs[index] = preprocessing(df)
-# print(dfs[0].head())
-
-#plot(dfs, colors)
-
-user_df = dfs[0]
-
-
 def get_all_distance(dfs, df):
     dist_df = df.rename(columns={'coordinate': 'user'})
     #dist_df.rename(columns={'coordinate': 'user'}, inplace=True)
@@ -107,7 +90,23 @@ def get_all_distance(dfs, df):
         dist_df.insert(columns_nb, f'ms-{columns_nb}', pd.Series(ms_positions))
 
     return dist_df
+  
+  
+# Algorithm
+list_files = listing_files(foldername)
+print(len(list_files))
 
+selected_files = list_files[:10]
+dfs = read_files(selected_files)
+# print(dfs[0].head())
+
+for index, df in enumerate(dfs):
+    dfs[index] = preprocessing(df)
+# print(dfs[0].head())
+
+#plot(dfs, colors)
+
+user_df = dfs[0]
 
 df = get_all_distance(dfs, user_df)
 
