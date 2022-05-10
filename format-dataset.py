@@ -53,17 +53,10 @@ def preprocessing(df):
 
     return df
 
-# FIXME #https://stackoverflow.com/questions/22483588/how-can-i-plot-separate-pandas-dataframes-as-subplots
-def plot(list_dataframes, colors):    
-    for df, color in zip(list_dataframes, colors):
-        df.plot(x="Longitude", y="Latitude", c=color)   
-
-
 def distance_from(loc1, loc2):
     # To calculate distance in meters
     dist = hs.haversine(loc1, loc2, unit=Unit.METERS)
     return round(dist, 2)
-
 
 
 def get_all_distance(dfs, df):
@@ -81,20 +74,6 @@ def get_all_distance(dfs, df):
         
     return dist_df
 
-def plot_distance(ms):
-    # ms_1 = df['ms-1'].distance    
-    new_df = pd.DataFrame(list(ms))
-    new_df = new_df[new_df.distance < 1000]
-    new_df.plot(y="distance", use_index=True, c='red')
-    
-
-def plot_all_distance(dfs, df):
-    for i in range(1, len(dfs)):
-        print(i)    
-        # print(df.iloc[:, i].dropna())
-        plot_distance(df.iloc[:, i].dropna())
-
-
 # Algorithm
 def create_env(foldername, nb_files = 10 ):
     list_files = listing_files(foldername)
@@ -106,26 +85,6 @@ def create_env(foldername, nb_files = 10 ):
     return df
 
 df = create_env(foldername)
-
 df.to_csv('illinois-env.csv', sep='|')
 
-# print(df.iloc[0])
-# plot_all_distance(dfs, df, plot_distance)
-ms = df['ms-1']
 
-state = df.iloc[150]
-print(state.T)
-df_transposed = pd.DataFrame(list(state[1:].T))
-print(df_transposed)
-
-df_transposed[["Longitude", "Latitude"]] = pd.DataFrame(df_transposed.position.tolist(), index= df_transposed.index)
-print(df_transposed)
-df_transposed.plot.scatter(x="Longitude", y="Latitude", c="blue")
-
-
-
-ms_trajectory = pd.DataFrame(list(ms)).position
-plot_distance(ms)
-plt.show()
-
-#https://pandas.pydata.org/pandas-docs/version/0.25.0/reference/api/pandas.DataFrame.plot.scatter.html
